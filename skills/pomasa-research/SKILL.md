@@ -1,6 +1,7 @@
 ---
 name: pomasa-research
 description: Use when researching any topic and producing structured outputs (articles, reports, analyses, etc.) using the POMASA multi-agent generator framework. Works from any directory - automatically sets up POMASA in user home directory.
+
 ---
 
 # POMASA Research
@@ -18,20 +19,33 @@ description: Use when researching any topic and producing structured outputs (ar
 使用 Bash 执行以下操作：
 
 1. **确定用户主目录**：macOS/Linux 使用 `$HOME`（即 `~`），Windows 使用 `$USERPROFILE`
+
 2. **检查 `~/.pomasa/pomasa/` 目录是否存在**：
+
    - **不存在**：创建目录并克隆代码库
+
      ```bash
      mkdir -p ~/.pomasa && git clone https://github.com/neilwangweili/pomasa.git ~/.pomasa/pomasa
      ```
+
    - **已存在**：拉取最新代码
+
      ```bash
      git -C ~/.pomasa/pomasa pull origin main
      ```
+
 3. **确认同步成功**：检查 `~/.pomasa/pomasa/skills/pomasa/SKILL.md` 是否存在
 
 ### Step 0.2: 确定工作目录
 
-后续所有操作的工作目录为 `~/.pomasa/pomasa/`。所有文件路径均相对于此目录。
+**优先使用用户定义的项目工作目录**。
+
+检查 memory 中是否记录了 `项目工作目录`：
+
+- **已记录**：使用记忆中的工作目录（如 `~/.hermes/workspace/`）
+- **未记录**：询问用户是否指定工作目录，若无则使用默认 `~/.pomasa/pomasa/project/`
+
+将确定的工作目录保存到 `WORKSPACE_DIR` 变量，后续所有项目路径基于此目录。
 
 ## Phase 1: 研究流程
 
@@ -75,6 +89,7 @@ digraph pomasa_research {
 **调用 brainstorming skill。** 这是一个设计工作：设计的是"如何完成研究并产出成果"的方案，而非成果本身。
 
 brainstorming 的目标是确定 `user_input_template.md` 的各项内容：
+
 - 研究主题与核心问题
 - 初步思路与洞察
 - 数据来源
@@ -84,7 +99,7 @@ brainstorming 的目标是确定 `user_input_template.md` 的各项内容：
 
 ### Step 3: 生成 user_input_template.md
 
-将 brainstorming 结果写入 `~/.pomasa/pomasa/{project-id}/user_input_template.md`。
+将 brainstorming 结果写入 `{WORKSPACE_DIR}/{project-id}/user_input_template.md`。
 
 `user_input_template.md`中的语言一般使用中文。
 
@@ -127,13 +142,13 @@ description: "Execute POMASA generator workflow"
 prompt: "
 请严格按照以下步骤执行，不要在任何步骤提前停止：
 
-**工作目录**: ~/.pomasa/pomasa/
+**工作目录**: {WORKSPACE_DIR}
 
 **Step 1: 读取用户输入**
-阅读 ~/.pomasa/pomasa/{project-id}/user_input_template.md
+阅读 {WORKSPACE_DIR}/{project-id}/user_input_template.md
 
 **Step 2: 读取 POMASA Generator Skill**
-阅读 ~/.pomasa/pomasa/skills/pomasa/SKILL.md，理解完整的生成流程
+阅读 ~/.pomasa/pomasa/skills/pomasa/SKILL.md，理解完整的生成流程（POMASA 模式目录始终在 ~/.pomasa/pomasa/ 下）
 
 **Step 3: 读取模式目录**
 阅读 ~/.pomasa/pomasa/skills/pomasa/pattern-catalog/README.md，了解可用模式
@@ -142,7 +157,7 @@ prompt: "
 必须阅读所有 Required 模式文档，特别是 BHV-02
 
 **Step 5: 生成智能体系统**
-在 ~/.pomasa/pomasa/{project-id}/ 下生成完整的系统文件：
+在 {WORKSPACE_DIR}/{project-id}/ 下生成完整的系统文件：
 - agents/ 目录及所有 Agent Blueprints
 - references/methodology/ 目录及方法论文件
 - 其他必需的目录和文件
@@ -163,24 +178,19 @@ prompt: "
 ```
 
 **关键点**：
+
 - 使用 Task tool 确保流程不会中断
 - 在 prompt 中明确列出所有步骤和验收标准
 - 强调不要提前停止
 
-## Phase 2: 结果展示
-
-研究流程完成后，使用 Bash 打开项目输出目录：
-
-- **macOS**: `open ~/.pomasa/pomasa/{project-id}/`
-- **Windows**: `explorer %USERPROFILE%\.pomasa\pomasa\{project-id}\`
-- **Linux**: `xdg-open ~/.pomasa/pomasa/{project-id}/`
-
 ## 关键文件
 
-所有路径相对于 `~/.pomasa/pomasa/`：
+POMASA 模式目录位于 `~/.pomasa/pomasa/`：
 
-| 文件 | 用途 |
+|| 文件 | 用途 |
 |------|------|
-| `skills/pomasa/SKILL.md` | MAS 生成器主流程 |
-| `skills/pomasa/user_input_template.md` | 用户输入模板 |
-| `skills/pomasa/pattern-catalog/README.md` | 模式目录索引 |
+| `~/.pomasa/pomasa/skills/pomasa/SKILL.md` | MAS 生成器主流程 |
+| `~/.pomasa/pomasa/skills/pomasa/user_input_template.md` | 用户输入模板 |
+| `~/.pomasa/pomasa/skills/pomasa/pattern-catalog/README.md` | 模式目录索引 |
+
+项目文件位于 `{WORKSPACE_DIR}/{project-id}/`。
