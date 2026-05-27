@@ -1,6 +1,6 @@
 ---
 name: pomasa-research
-description: Use when researching any topic and producing structured outputs (articles, reports, analyses, etc.) using the POMASA multi-agent generator framework. Works from any directory - automatically sets up POMASA in user home directory.
+description: Use when researching any topic and producing structured outputs (articles, reports, analyses, book, etc.) using the POMASA multi-agent generator framework. Works from any directory - automatically sets up POMASA in user home directory.
 
 ---
 
