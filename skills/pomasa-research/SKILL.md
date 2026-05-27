@@ -25,7 +25,7 @@ description: Use when researching any topic and producing structured outputs (ar
    - **不存在**：创建目录并克隆代码库
 
      ```bash
-     mkdir -p ~/.pomasa && git clone https://github.com/neilwangweili/pomasa.git ~/.pomasa/pomasa
+     mkdir -p ~/.pomasa && git clone https://github.com/eXtremeProgramming-cn/pomasa.git ~/.pomasa/pomasa
      ```
 
    - **已存在**：拉取最新代码
@@ -42,7 +42,7 @@ description: Use when researching any topic and producing structured outputs (ar
 
 检查 memory 中是否记录了 `项目工作目录`：
 
-- **已记录**：使用记忆中的工作目录（如 `~/.hermes/workspace/`）
+- **已记录**：使用记忆中的工作目录（例如 `~/MY/project/`、`~/.hermes/workspace/`）
 - **未记录**：询问用户是否指定工作目录，若无则使用默认 `~/.pomasa/pomasa/project/`
 
 将确定的工作目录保存到 `WORKSPACE_DIR` 变量，后续所有项目路径基于此目录。
@@ -94,7 +94,7 @@ brainstorming 的目标是确定 `user_input_template.md` 的各项内容：
 - 初步思路与洞察
 - 数据来源
 - 分析方法
-- **输出形式定位**（公众号文章、研究报告、技术分析、对比评测等——需在此阶段明确）
+- **输出形式定位**（公众号文章、研究报告、技术分析、对比评测、由浅入深的硬核技术书籍等——需在此阶段明确）
 - 模式选择
 
 ### Step 3: 生成 user_input_template.md
